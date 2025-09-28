@@ -51,18 +51,18 @@ alto = []
 tenor = []
 bass = []
 
-numberOfNotes = int(input('how many chords are there?'))
+numberOfNotes = int(input('how many chords are there? '))
 
 print('type 1 or 2 after the note to increase the octave')
 
 for x in range(numberOfNotes):
-  sopranoNotes = input('enter the next soprano note')
+  sopranoNotes = input('enter the next soprano note ')
   soprano.append(sopranoNotes)
-  altoNotes = input('enter the next alto note')
+  altoNotes = input('enter the next alto note ')
   alto.append(altoNotes)
-  tenorNotes = input('enter the next tenor note')
+  tenorNotes = input('enter the next tenor note ')
   tenor.append(tenorNotes)
-  bassNotes = input('enter the next bass note')
+  bassNotes = input('enter the next bass note ')
   bass.append(bassNotes)
 
 #---calling notes to numbers function---
@@ -135,7 +135,7 @@ print('The chord progression is ' + progressionToPrintString)
 # (might not use this because it relies on there being a chord 1 in it)
 romanNumerals = []
 
-keyStr = input('What key is it in?')
+keyStr = input('What key is it in? ')
 keyList = [keyStr]
 keyNumber = notesToNumbers(keyList)
 
@@ -175,10 +175,13 @@ else:
 
 print(chordKeyNumbers)
 
+def numberToRomanNumeral(num):
+  return romanNumerals[num]
+
 #this bit doesn't work either
 romanChordProgression = []
 for x in range (numberOfNotes):
-  romanChordProgression.append(romanNumerals[chordKeyNumbers[x]])
+  romanChordProgression.append(numberToRomanNumeral(chordKeyNumbers[x]))
 print(romanChordProgression)
 
 #---checking for consecutive intervals---
