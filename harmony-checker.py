@@ -1,4 +1,4 @@
-# 4-part harmony checker!
+# 4-part harmony checker!!
 
 # 1. check they make chords (triads)
 # 2. check for consecutive octaves
