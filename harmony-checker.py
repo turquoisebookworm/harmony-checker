@@ -121,7 +121,7 @@ progressionToPrintString = str(progressionToPrintList)
   
 # this bit broke and idk why
 for x in range (len(progressionToPrintString)):
-  if progressionToPrintString[x:x+1] in "'[ ],":
+  if progressionToPrintString[x:x+1] in "'[],":
     progressionToPrintString = progressionToPrintString.replace(progressionToPrintString[x:x+1], '')
 progressionToPrintString = progressionToPrintString.replace(progressionToPrintString[-1], '')
 progressionToPrintString = progressionToPrintString[:-1]
@@ -129,17 +129,12 @@ print('The chord progression is ' + progressionToPrintString)
 
 #---chord progression in roman numerals + cadences---
 
-# changing this because it only works for cmaj 
-# logic: if key in chord progression, that chord = 1 then calculate around from that
-# also use diatonicchordsnumbers to help in that
-# (might not use this because it relies on there being a chord 1 in it)
 romanNumerals = []
 
 keyStr = input('What key is it in? ')
 keyList = [keyStr]
 keyNumber = notesToNumbers(keyList)
 
-# i probably don't need this bit if i get the rest of it working (see further comment)
 if keyStr[-1:-2] == 'm':
   keyTonality = 'minor'
   romanNumerals = ['blank', 'i', 'ii°', 'III', 'iv', 'V', 'VI', 'vii°']
@@ -154,43 +149,28 @@ chordKeyNumbers  = []
 for x in range (numberOfNotes):
   if chordProgressionNumbers[x] in diatonicChordsNumbers:
     isDiatonic = True
-# -> convert into roman numerals and then if maj/min make capital or not
 
-#fix this bit so it works in every key
-# -> done, but it doesn't work because the adjusted number might not be in diatonic chord list
 keyAdjust = keyNumber[0] - 1
 diChoNumAdjusted = 0
 keyAdjustedList = []
 
 if isDiatonic:
   keyAdjustedList = [x+keyAdjust for x in diatonicChordsNumbers]
-  for x in range(6):
+  for x in range(len(keyAdjustedList)):
     if keyAdjustedList[x] > 12:
       keyAdjustedList[x] = keyAdjustedList[x] - 12
   for x in range(numberOfNotes):
     chordKeyNumbers.append(keyAdjustedList.index(chordProgressionNumbers[x]))
       
-      # index of dcn list = chord key number!!
-      #for x in range (1, 7):
-        #if diChoNumAdjusted == diatonicChordsNumbers[x]:
-          #foundInDCN = i
-     # chordKeyNumbers.append(foundInDCN)
-     
-      #if chordProgressionNumbers[n] == diChoNumAdjusted:
-        #if diChoNumAdjusted >= 12:
-         # diChoNumAdjusted = diChoNumAdjusted - 12
-        #chordKeyNumbers.append(diChoNumAdjusted)
-      
 else:
   print('not diatonic chords')
 
-print(chordKeyNumbers)
+#print(chordKeyNumbers)
 
 
 def numberToRomanNumeral(num):
   return romanNumerals[num]
 
-#this bit doesn't work either
 romanChordProgression = []
 for x in range (numberOfNotes):
   romanChordProgression.append(numberToRomanNumeral(chordKeyNumbers[x]))
