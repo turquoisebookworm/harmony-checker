@@ -147,33 +147,45 @@ else:
   keyTonality = 'major'
   romanNumerals = ['blank', 'I', 'ii', 'iii', 'IV', 'V', 'vi', 'vii°' ]
 
-diatonicChordsNumbers = [1, 3, 5, 6, 8, 10, 12]
+diatonicChordsNumbers = [0, 1, 3, 5, 6, 8, 10, 12]
 
 chordKeyNumbers  = []
 
-#for x in range (numberOfNotes):
-  #if chordProgressionNumbers[x] in diatonicChordsNumbers:
-
-isDiatonic = True
+for x in range (numberOfNotes):
+  if chordProgressionNumbers[x] in diatonicChordsNumbers:
+    isDiatonic = True
 # -> convert into roman numerals and then if maj/min make capital or not
 
 #fix this bit so it works in every key
 # -> done, but it doesn't work because the adjusted number might not be in diatonic chord list
 keyAdjust = keyNumber[0] - 1
+diChoNumAdjusted = 0
+keyAdjustedList = []
 
 if isDiatonic:
-  for n in range (numberOfNotes):
-    for i in range (6):
-      diChoNumAdjusted = diatonicChordsNumbers[i] + keyAdjust
-      if chordProgressionNumbers[n] == diChoNumAdjusted:
-        if diChoNumAdjusted > 12:
-          diChoNumAdjusted = diChoNumAdjusted - 12
-        chordKeyNumbers.append(diChoNumAdjusted)
+  keyAdjustedList = [x+keyAdjust for x in diatonicChordsNumbers]
+  for x in range(6):
+    if keyAdjustedList[x] > 12:
+      keyAdjustedList[x] = keyAdjustedList[x] - 12
+  for x in range(numberOfNotes):
+    chordKeyNumbers.append(keyAdjustedList.index(chordProgressionNumbers[x]))
+      
+      # index of dcn list = chord key number!!
+      #for x in range (1, 7):
+        #if diChoNumAdjusted == diatonicChordsNumbers[x]:
+          #foundInDCN = i
+     # chordKeyNumbers.append(foundInDCN)
+     
+      #if chordProgressionNumbers[n] == diChoNumAdjusted:
+        #if diChoNumAdjusted >= 12:
+         # diChoNumAdjusted = diChoNumAdjusted - 12
+        #chordKeyNumbers.append(diChoNumAdjusted)
       
 else:
   print('not diatonic chords')
 
 print(chordKeyNumbers)
+
 
 def numberToRomanNumeral(num):
   return romanNumerals[num]
