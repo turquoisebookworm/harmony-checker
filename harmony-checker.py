@@ -1,18 +1,15 @@
 # 4-part harmony checker!!
 
-# 1. check they make chords (triads)
-# 2. check for consecutive octaves
-# 3. check for consecutive 5ths
+# 1. check they make chords (triads) - done!
+# 2. check for consecutive octaves - done!
+# 3. check for consecutive 5ths - done!
 # 4. check distances between parts
 # 5. output chord sequence and check it makes a cadence
 # 6. make it work for 7ths, prepared + resolved
 
 # things to do next:
-# -> fully test consecutives function 
-# (23/09: i think it works?? haven't found one where it doesn't)
-# output chord sequence - done!! - this broke for 3  or more chords, idk why
-# -> user inputs key, then work out chord progression in roman numerals, check it makes a cadence
-# --> not working yet but i'm tryinggg
+# check cadences
+# -> e.g. if romanprog[x] = 1 and [x+1] = 5 then print 'imperf cadence between chords x and x+1'
 # output chord's inversion + include this in chord progression
 
 #---notes to numbers function---
@@ -119,7 +116,6 @@ for x in range(numberOfNotes):
     progressionToPrintList.append('- ')
 progressionToPrintString = str(progressionToPrintList)
   
-# this bit broke and idk why
 for x in range (len(progressionToPrintString)):
   if progressionToPrintString[x:x+1] in "'[],":
     progressionToPrintString = progressionToPrintString.replace(progressionToPrintString[x:x+1], '')
@@ -151,11 +147,10 @@ for x in range (numberOfNotes):
     isDiatonic = True
 
 keyAdjust = keyNumber[0] - 1
-diChoNumAdjusted = 0
 keyAdjustedList = []
 
 if isDiatonic:
-  keyAdjustedList = [x+keyAdjust for x in diatonicChordsNumbers]
+  keyAdjustedList = [x + keyAdjust for x in diatonicChordsNumbers]
   for x in range(len(keyAdjustedList)):
     if keyAdjustedList[x] > 12:
       keyAdjustedList[x] = keyAdjustedList[x] - 12
@@ -165,9 +160,6 @@ if isDiatonic:
 else:
   print('not diatonic chords')
 
-#print(chordKeyNumbers)
-
-
 def numberToRomanNumeral(num):
   return romanNumerals[num]
 
@@ -175,6 +167,19 @@ romanChordProgression = []
 for x in range (numberOfNotes):
   romanChordProgression.append(numberToRomanNumeral(chordKeyNumbers[x]))
 print(romanChordProgression)
+
+for x in range (numberOfNotes):
+  if x+1 < numberOfNotes:
+    if romanChordProgression[x+1] == 'V':
+      if romanChordProgression[x] == 'I' or romanChordProgression[x] == 'i' or romanChordProgression[x] == 'IV' or romanChordProgression[x] == 'ii':
+        print('imperfect cadence between chords ' + str(x+1) + ' and ' + str(x+2))
+      elif romanChordProgression[x] == 'IV' or romanChordProgression[x] == 'iv':
+         print('plagal cadence between chords ' + str(x+1) + ' and ' + str(x+2))
+    elif romanChordProgression[x] == 'V':
+      if romanChordProgression[x+1] == 'I' or romanChordProgression[x+1] == 'i':
+        print('perfect cadence between chords ' + str(x+1) + ' and ' + str(x+2))
+      elif romanChordProgression[x+1] == 'vi':
+        print('interrupted cadence between chords ' + str(x+1) + ' and ' + str(x+2))
 
 #---checking for consecutive intervals---
 
