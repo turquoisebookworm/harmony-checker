@@ -131,13 +131,17 @@ for x in range(numberOfNotes):
   elif tonalityProgression[x] == 'major':
     progressionToPrintList.append(inversionsGlobal[x])
     progressionToPrintList.append('- ')
-progressionToPrintString = str(progressionToPrintList)
 
-for x in range (len(progressionToPrintString)):
-  if progressionToPrintString[x:x+1] in "'[],":
-    progressionToPrintString = progressionToPrintString.replace(progressionToPrintString[x:x+1], '')
-progressionToPrintString = progressionToPrintString.replace(progressionToPrintString[-1], '')
-progressionToPrintString = progressionToPrintString[:-1]
+def removeSymbols(toPrintList):
+  toPrintString = str(toPrintList)
+  for x in range (len(toPrintString)):
+    if toPrintString[x:x+1] in "'[],":
+      toPrintString = toPrintString.replace(toPrintString[x:x+1], '')
+    toPrintString = toPrintString.replace(toPrintString[-1], '')
+    toPrintString = toPrintString[:-1]
+  return(toPrintString)
+
+progressionToPrintString = removeSymbols(progressionToPrintList)
 print('The chord progression is ' + progressionToPrintString)
 
 
