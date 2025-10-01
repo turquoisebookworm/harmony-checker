@@ -4,12 +4,10 @@
 # 2. check for consecutive octaves - done!
 # 3. check for consecutive 5ths - done!
 # 4. check distances between parts
-# 5. output chord sequence and check it makes a cadence
+# 5. output chord sequence and check it makes a cadence - done!
 # 6. make it work for 7ths, prepared + resolved
 
 # things to do next:
-# check cadences
-# -> e.g. if romanprog[x] = 1 and [x+1] = 5 then print 'imperf cadence between chords x and x+1'
 # output chord's inversion + include this in chord progression
 
 #---notes to numbers function---
@@ -74,6 +72,7 @@ bassNumbers = notesToNumbers(bass)
 triadCount = 0
 chordProgressionNumbers = []
 tonalityProgression = []
+thisChordUnsorted = []
 
 for x in range (numberOfNotes):
   thisChord = []
@@ -81,10 +80,11 @@ for x in range (numberOfNotes):
   thisChord.append(altoNumbers[x])
   thisChord.append(tenorNumbers[x])
   thisChord.append(bassNumbers[x])
+  for n in range (len(thisChord)):
+    thisChordUnsorted.append(thisChord[n])
   thisChord.sort()
   chordProgressionNumbers.append(thisChord[0])
-  
-  
+
   if thisChord[0] + 4 == thisChord[1] and thisChord[1] + 3 == thisChord[2] and thisChord[2] + 5 == thisChord[3]:
     triadCount = triadCount + 1
     tonality = 'major'
@@ -101,6 +101,15 @@ if triadCount == numberOfNotes:
   
 #---checking chord progression---
 
+def findInversion(chordNumbers):
+  if chordNumbers[3] == thisChord[0]:
+    inversion = ''
+  elif chordNumbers[3] == thisChord[1]:
+    inversion = 'b'
+  elif chordNumbers[3] == thisChord[2]:
+    inversion = 'c'
+  return(inversion)
+
 chordProgressionLetters = []
 progressionToPrintList = []
 
@@ -108,20 +117,30 @@ for x in range (numberOfNotes):
   thisRoot = chordProgressionNumbers[x]
   chordProgressionLetters.append(notes[thisRoot - 1])
 
+inversionsGlobal = []
+for x in range (numberOfNotes):
+  inversionGlobal = findInversion(thisChordUnsorted)
+  inversionsGlobal.append(inversionGlobal)
+
 for x in range(numberOfNotes):
   progressionToPrintList.append(chordProgressionLetters[x])
   if tonalityProgression[x] == 'minor':
-    progressionToPrintList.append('m - ')
+    progressionToPrintList.append('m ')
+    progressionToPrintList.append(inversionsGlobal[x])
+    progressionToPrintList.append('- ')
   elif tonalityProgression[x] == 'major':
+    progressionToPrintList.append(inversionsGlobal[x])
     progressionToPrintList.append('- ')
 progressionToPrintString = str(progressionToPrintList)
-  
+
 for x in range (len(progressionToPrintString)):
   if progressionToPrintString[x:x+1] in "'[],":
     progressionToPrintString = progressionToPrintString.replace(progressionToPrintString[x:x+1], '')
 progressionToPrintString = progressionToPrintString.replace(progressionToPrintString[-1], '')
 progressionToPrintString = progressionToPrintString[:-1]
 print('The chord progression is ' + progressionToPrintString)
+
+
 
 #---chord progression in roman numerals + cadences---
 
