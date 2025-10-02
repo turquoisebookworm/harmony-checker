@@ -138,11 +138,12 @@ for x in range(numberOfNotes):
 #doesn't work when there's only one chord and idk why
 def removeSymbols(toPrintList):
   toPrintString = str(toPrintList)
-  for x in range (len(toPrintString)):
-    if toPrintString[x:x+1] in "'[ ],":
-      toPrintString = toPrintString.replace(toPrintString[x:x+1], '')
-  if toPrintString[-1] == '-':
-    toPrintString = toPrintString[:-1]
+  toPrintString = toPrintString.replace("'", "")
+  toPrintString = toPrintString.replace("]", "")
+  toPrintString = toPrintString.replace("[", "")
+  toPrintString = toPrintString.replace(",", "")
+  toPrintString = toPrintString.replace(" ", "")
+  toPrintString = toPrintString[:-1]
   return(toPrintString)
 
 progressionToPrintString = removeSymbols(progressionToPrintList)
@@ -190,8 +191,7 @@ def numberToRomanNumeral(num):
 
 romanChordProgression = []
 
-# fix - gives all chords the inversion of the last chord
-
+# fix - gives all chords the inversion of the last chord (problem is w/this, not removeSymbolsS)
 print(inversionsGlobal)
 for x in range (numberOfNotes):
   romanChordProgression.append(numberToRomanNumeral(chordKeyNumbers[x]))
