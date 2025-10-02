@@ -76,6 +76,7 @@ thisChordUnsorted = []
 
 for x in range (numberOfNotes):
   thisChord = []
+  thisChordUnsorted = []
   thisChord.append(sopranoNumbers[x])
   thisChord.append(altoNumbers[x])
   thisChord.append(tenorNumbers[x])
@@ -102,6 +103,7 @@ if triadCount == numberOfNotes:
 #---checking chord progression---
 
 def findInversion(chordNumbers):
+  inversion = ''
   if chordNumbers[3] == thisChord[0]:
     inversion = ''
   elif chordNumbers[3] == thisChord[1]:
@@ -122,29 +124,29 @@ for x in range (numberOfNotes):
   inversionGlobal = findInversion(thisChordUnsorted)
   inversionsGlobal.append(inversionGlobal)
 
+# turn inversions into chord/root notation
 for x in range(numberOfNotes):
   progressionToPrintList.append(chordProgressionLetters[x])
   if tonalityProgression[x] == 'minor':
     progressionToPrintList.append('m ')
-    progressionToPrintList.append(inversionsGlobal[x])
+    #progressionToPrintList.append(inversionsGlobal[x])
     progressionToPrintList.append('- ')
   elif tonalityProgression[x] == 'major':
-    progressionToPrintList.append(inversionsGlobal[x])
+    #progressionToPrintList.append(inversionsGlobal[x])
     progressionToPrintList.append('- ')
 
+#doesn't work when there's only one chord and idk why
 def removeSymbols(toPrintList):
   toPrintString = str(toPrintList)
   for x in range (len(toPrintString)):
-    if toPrintString[x:x+1] in "'[],":
+    if toPrintString[x:x+1] in "'[ ],":
       toPrintString = toPrintString.replace(toPrintString[x:x+1], '')
-    toPrintString = toPrintString.replace(toPrintString[-1], '')
+  if toPrintString[-1] == '-':
     toPrintString = toPrintString[:-1]
   return(toPrintString)
 
 progressionToPrintString = removeSymbols(progressionToPrintList)
 print('The chord progression is ' + progressionToPrintString)
-
-
 
 #---chord progression in roman numerals + cadences---
 
@@ -154,7 +156,7 @@ keyStr = input('What key is it in? ')
 keyList = [keyStr]
 keyNumber = notesToNumbers(keyList)
 
-if keyStr[-1:-2] == 'm':
+if keyStr[-1] == 'm':
   keyTonality = 'minor'
   romanNumerals = ['blank', 'i', 'ii°', 'III', 'iv', 'V', 'VI', 'vii°']
 else:
@@ -187,9 +189,15 @@ def numberToRomanNumeral(num):
   return romanNumerals[num]
 
 romanChordProgression = []
+
+# fix - gives all chords the inversion of the last chord
+
+print(inversionsGlobal)
 for x in range (numberOfNotes):
   romanChordProgression.append(numberToRomanNumeral(chordKeyNumbers[x]))
-print(romanChordProgression)
+  romanChordProgression.append(inversionsGlobal[x])
+  romanChordProgression.append(' - ')
+print(removeSymbols(romanChordProgression))
 
 for x in range (numberOfNotes):
   if x+1 < numberOfNotes:
