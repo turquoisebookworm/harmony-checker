@@ -9,6 +9,7 @@
 
 # things to do next:
 # output chord's inversion + include this in chord progression
+# turn it into slash notation for letter prog
 
 #---notes to numbers function---
 def notesToNumbers(noteNames):
@@ -67,12 +68,23 @@ altoNumbers = notesToNumbers(alto)
 tenorNumbers = notesToNumbers(tenor)
 bassNumbers = notesToNumbers(bass)
 
-#---checking if the notes make a triad---
+#---checking if the notes make a triad + calculating inversions---
 
 triadCount = 0
 chordProgressionNumbers = []
 tonalityProgression = []
 thisChordUnsorted = []
+inversionsGlobal = []
+
+def findInversion(chordNumbers):
+  inversion = ''
+  if chordNumbers[3] == thisChord[0]:
+    inversion = ''
+  elif chordNumbers[3] == thisChord[1]:
+    inversion = 'b'
+  elif chordNumbers[3] == thisChord[2]:
+    inversion = 'c'
+  return(inversion)
 
 for x in range (numberOfNotes):
   thisChord = []
@@ -85,6 +97,9 @@ for x in range (numberOfNotes):
     thisChordUnsorted.append(thisChord[n])
   thisChord.sort()
   chordProgressionNumbers.append(thisChord[0])
+
+  inversionGlobal = findInversion(thisChordUnsorted)
+  inversionsGlobal.append(inversionGlobal)
 
   if thisChord[0] + 4 == thisChord[1] and thisChord[1] + 3 == thisChord[2] and thisChord[2] + 5 == thisChord[3]:
     triadCount = triadCount + 1
@@ -102,16 +117,6 @@ if triadCount == numberOfNotes:
   
 #---checking chord progression---
 
-def findInversion(chordNumbers):
-  inversion = ''
-  if chordNumbers[3] == thisChord[0]:
-    inversion = ''
-  elif chordNumbers[3] == thisChord[1]:
-    inversion = 'b'
-  elif chordNumbers[3] == thisChord[2]:
-    inversion = 'c'
-  return(inversion)
-
 chordProgressionLetters = []
 progressionToPrintList = []
 
@@ -119,12 +124,7 @@ for x in range (numberOfNotes):
   thisRoot = chordProgressionNumbers[x]
   chordProgressionLetters.append(notes[thisRoot - 1])
 
-inversionsGlobal = []
-for x in range (numberOfNotes):
-  inversionGlobal = findInversion(thisChordUnsorted)
-  inversionsGlobal.append(inversionGlobal)
-
-# turn inversions into chord/root notation
+# to do: turn inversions into chord/root notation
 for x in range(numberOfNotes):
   progressionToPrintList.append(chordProgressionLetters[x])
   if tonalityProgression[x] == 'minor':
