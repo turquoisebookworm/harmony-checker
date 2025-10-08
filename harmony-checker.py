@@ -8,7 +8,6 @@
 # 6. make it work for 7ths, prepared + resolved
 
 # things to do next:
-# output chord's inversion + include this in chord progression
 # turn it into slash notation for letter prog
 
 #---notes to numbers function---
@@ -60,7 +59,7 @@ for x in range(numberOfNotes):
   tenor.append(tenorNotes)
   bassNotes = input('enter the next bass note ')
   bass.append(bassNotes)
-
+  
 #---calling notes to numbers function---
 
 sopranoNumbers = notesToNumbers(soprano)
@@ -129,13 +128,14 @@ for x in range(numberOfNotes):
   progressionToPrintList.append(chordProgressionLetters[x])
   if tonalityProgression[x] == 'minor':
     progressionToPrintList.append('m ')
-    #progressionToPrintList.append(inversionsGlobal[x])
+    if inversionsGlobal[x] == 'b' or inversionsGlobal[x] == 'c':
+      progressionToPrintList.append(f'/{bass[x]}')
     progressionToPrintList.append('- ')
   elif tonalityProgression[x] == 'major':
-    #progressionToPrintList.append(inversionsGlobal[x])
+    if inversionsGlobal[x] == 'b' or inversionsGlobal[x] == 'c':
+      progressionToPrintList.append(f'/{bass[x]}')
     progressionToPrintList.append('- ')
 
-#doesn't work when there's only one chord and idk why
 def removeSymbols(toPrintList):
   toPrintString = str(toPrintList)
   toPrintString = toPrintString.replace("'", "")
@@ -191,8 +191,6 @@ def numberToRomanNumeral(num):
 
 romanChordProgression = []
 
-# fix - gives all chords the inversion of the last chord (problem is w/this, not removeSymbolsS)
-print(inversionsGlobal)
 for x in range (numberOfNotes):
   romanChordProgression.append(numberToRomanNumeral(chordKeyNumbers[x]))
   romanChordProgression.append(inversionsGlobal[x])
