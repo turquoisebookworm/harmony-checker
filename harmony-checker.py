@@ -59,7 +59,7 @@ for x in range(numberOfNotes):
   tenor.append(tenorNotes)
   bassNotes = input('enter the next bass note ')
   bass.append(bassNotes)
-  
+
 #---calling notes to numbers function---
 
 sopranoNumbers = notesToNumbers(soprano)
@@ -123,7 +123,6 @@ for x in range (numberOfNotes):
   thisRoot = chordProgressionNumbers[x]
   chordProgressionLetters.append(notes[thisRoot - 1])
 
-# to do: turn inversions into chord/root notation
 for x in range(numberOfNotes):
   progressionToPrintList.append(chordProgressionLetters[x])
   if tonalityProgression[x] == 'minor':
@@ -190,24 +189,30 @@ def numberToRomanNumeral(num):
   return romanNumerals[num]
 
 romanChordProgression = []
+romanChordsOnly = []
 
 for x in range (numberOfNotes):
   romanChordProgression.append(numberToRomanNumeral(chordKeyNumbers[x]))
   romanChordProgression.append(inversionsGlobal[x])
   romanChordProgression.append(' - ')
-print(removeSymbols(romanChordProgression))
+
+for x in range(numberOfNotes*3):
+  if romanChordProgression[x] in romanNumerals:
+    romanChordsOnly.append(romanChordProgression[x])
+
+print(f'The chord progression is {removeSymbols(romanChordProgression)}')
 
 for x in range (numberOfNotes):
   if x+1 < numberOfNotes:
-    if romanChordProgression[x+1] == 'V':
-      if romanChordProgression[x] == 'I' or romanChordProgression[x] == 'i' or romanChordProgression[x] == 'IV' or romanChordProgression[x] == 'ii':
+    if romanChordsOnly[x+1] == 'V':
+      if romanChordsOnly[x] == 'I' or romanChordsOnly[x] == 'i' or romanChordsOnly[x] == 'IV' or romanChordsOnly[x] == 'ii':
         print('imperfect cadence between chords ' + str(x+1) + ' and ' + str(x+2))
-      elif romanChordProgression[x] == 'IV' or romanChordProgression[x] == 'iv':
+      elif romanChordsOnly[x] == 'IV' or romanChordsOnly[x] == 'iv':
          print('plagal cadence between chords ' + str(x+1) + ' and ' + str(x+2))
-    elif romanChordProgression[x] == 'V':
-      if romanChordProgression[x+1] == 'I' or romanChordProgression[x+1] == 'i':
+    elif romanChordsOnly[x] == 'V':
+      if romanChordsOnly[x+1] == 'I' or romanChordsOnly[x+1] == 'i':
         print('perfect cadence between chords ' + str(x+1) + ' and ' + str(x+2))
-      elif romanChordProgression[x+1] == 'vi':
+      elif romanChordsOnly[x+1] == 'vi':
         print('interrupted cadence between chords ' + str(x+1) + ' and ' + str(x+2))
 
 #---checking for consecutive intervals---
